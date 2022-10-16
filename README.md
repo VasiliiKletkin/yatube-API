@@ -1,124 +1,138 @@
 # yatube-API
-### Описание
-API для Yatub представляет собой проект социальной сети в которой реализованы следующие возможности, 
-публиковать записи, комментировать записи, а так же подписываться или отписываться от авторов.
-### Технологии
-Python 3.7, Django 3.2, DRF, JWT + Djoser
-### Запуск проекта в dev-режиме
-- Клонировать репозиторий и перейти в него в командной строке.
-- Установите и активируйте виртуальное окружение c учетом версии Python 3.7 (выбираем python не ниже 3.7):
-```bash
-py -3.7 -m venv venv
-venv/Scripts/activate
-python -m pip install --upgrade pip
-```
-- Затем нужно установить все зависимости из файла requirements.txt
-```bash
-pip install -r requirements.txt
-```
-- Выполняем миграции:
-```bash
-python manage.py migrate
-```
-Создаем суперпользователя:
-```bash
-python manage.py createsuperuser
-```
-Запускаем проект:
-```bash
-python manage.py runserver
-```
-### Примеры работы с API для всех пользователей
-Для неавторизованных пользователей работа с API доступна в режиме чтения,
-что-либо изменить или создать не получится.
-```bash
-GET api/v1/posts/ - получить список всех публикаций.
-При указании параметров limit и offset выдача должна работать с пагинацией
-GET api/v1/posts/{id}/ - получение публикации по id
+### Description
+API for Yatub is a social network project that implements the following features,
+publish entries, comment on entries, as well as subscribe or unsubscribe from authors.
 
-GET api/v1/groups/ - получение списка доступных сообществ
-GET api/v1/groups/{id}/ - получение информации о сообществе по id
+---
 
-GET api/v1/{post_id}/comments/ - получение всех комментариев к публикации
-GET api/v1/{post_id}/comments/{id}/ - Получение комментария к публикации по id
+### Technologies:
+* Python
+* Django
+* Pytest
+* Git
+* DRF
+* JWT
+---
+
+### Installation
+Clone the repository on the local machine:
+
+```$ git clone https://github.com/vkletkin/yatube-main```
+
+ Create a virtual environment:
+ 
+ ```$ python -m venv venv```
+ 
+ Install dependencies:
+
+```$ pip install -r requirements.txt```
+
+Creating and applying migrations:
+
+```$ python manage.py makemigrations``` and  ```$ python manage.py migrate```
+
+Starting the django server:
+
+```$ python manage.py runserver```
+
+---
+
+### API examples for all users
+For unauthorized users, working with the API is available in read mode,
+nothing can be changed or created.
+```bash
+GET api/v1/posts/ - get a list of all posts.
+When specifying the limit and offset parameters, the output should work with pagination
+GET api/v1/posts/{id}/ - getting a post by id
+
+GET api/v1/groups/ - getting a list of available communities
+GET api/v1/groups/{id}/ - getting information about the community by id
+
+GET api/v1/{post_id}/comments/ - get all comments on a post
+GET api/v1/{post_id}/comments/{id}/ - Getting a comment on a post by id
 ```
-### Примеры работы с API для авторизованных пользователей
-Для создания публикации используем:
+### API examples for authorized users
+To create a post, use:
 ```bash
 POST /api/v1/posts/
 ```
-в body
+in body
+```
 {
 "text": "string",
 "image": "string",
-"group": 0
+group: 0
 }
-
-Обновление публикации:
+```
+Post update:
 ```bash
 PUT /api/v1/posts/{id}/
 ```
-в body
+in body
+```
 {
 "text": "string",
 "image": "string",
-"group": 0
+group: 0
 }
+```
 
-Частичное обновление публикации:
+Partial post update:
 ```bash
 PATCH /api/v1/posts/{id}/
 ```
-в body
+in body
+```
 {
 "text": "string",
 "image": "string",
-"group": 0
+group: 0
 }
+```
 
-Частичное обновление публикации:
+Partial post update:
 ```bash
 DEL /api/v1/posts/{id}/
 ```
-Получение доступа к эндпоинту /api/v1/follow/
-(подписки) доступен только для авторизованных пользователей.
+Getting access to the /api/v1/follow/ endpoint
+(subscription) is only available to authorized users.
 ```bash
-GET /api/v1/follow/ - подписка пользователя от имени которого сделан запрос
-на пользователя переданного в теле запроса. Анонимные запросы запрещены.
+GET /api/v1/follow/ - user subscription on whose behalf the request was made
+to the user passed in the body of the request. Anonymous requests are prohibited.
 ```
-- Авторизованные пользователи могут создавать посты,
-комментировать их и подписываться на других пользователей.
-- Пользователи могут изменять(удалять) контент, автором которого они являются.
+- Authorized users can create posts,
+comment on them and follow other users.
+- Users can change (delete) the content of which they are the author.
 
-### Добавить группу в проект нужно через админ панель Django:
+### You need to add a group to the project through the Django admin panel:
 ```bash
-admin/ - после авторизации, переходим в раздел Groups и создаем группы
+admin/ - after authorization, go to the Groups section and create groups
 ```
-Доступ авторизованным пользователем доступен по JWT-токену (Joser),
-который можно получить выполнив POST запрос по адресу:
+Access by an authorized user is available with a JWT token (Joser),
+which can be obtained by performing a POST request to the address:
 ```bash
 POST /api/v1/jwt/create/
 ```
-Передав в body данные пользователя (например в postman):
+Passing user data in body (for example, in postman):
 ```bash
 {
 "username": "string",
 "password": "string"
 }
 ```
-Полученный токен добавляем в headers (postman), после чего буду доступны все функции проекта:
+We add the received token to headers (postman), after which all project functions will be available:
 ```bash
 Authorization: Bearer {your_token}
 ```
-Обновить JWT-токен:
+Update JWT token:
 ```bash
-POST /api/v1/jwt/refresh/ - обновление JWT-токена
+POST /api/v1/jwt/refresh/ - refresh JWT token
 ```
-Проверить JWT-токен:
+Check JWT token:
 ```bash
-POST /api/v1/jwt/verify/ - проверка JWT-токена
+POST /api/v1/jwt/verify/ - JWT token verification
 ```
-Так же в проекте API реализована пагинация (LimitOffsetPagination):
+Also, pagination (LimitOffsetPagination) is implemented in the API project:
 ```bash
-GET /api/v1/posts/?limit=5&offset=0 - пагинация на 5 постов, начиная с первого
+GET /api/v1/posts/?limit=5&offset=0 - pagination for 5 posts, starting from the first
 ```
