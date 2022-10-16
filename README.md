@@ -1,7 +1,8 @@
 # yatube-API
 ### Description
-API for Yatub is a social network project that implements the following features,
-publish entries, comment on entries, as well as subscribe or unsubscribe from authors.
+On the site you can meet (there is a filtering of news by tag), implements pagination. Model view analytics is available, without the possibility of cheating.
+In the admin panel, in addition to the standard set of features, you can delete, add, significantly. By API, you can request, always and add news.
+Permissions are not installed, so every user can carry the update.
 
 ---
 
