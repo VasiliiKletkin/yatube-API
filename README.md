@@ -12,6 +12,7 @@ publish entries, comment on entries, as well as subscribe or unsubscribe from au
 * Git
 * DRF
 * JWT
+
 ---
 
 ### Installation
